@@ -1,5 +1,7 @@
 module elink_trig_scrubber(clk,i_wb_addr,i_wb_stb,data_in1,data_in2,data_in3,o_wb_data,o_wb_ack,o_wb_stall);
 
+  //parameter num_addrs = 128;
+  //parameter max_addr = 127;
   parameter num_addrs = 4;
   parameter max_addr = 3;
   parameter WRITE_WB = 0;
@@ -9,23 +11,23 @@ module elink_trig_scrubber(clk,i_wb_addr,i_wb_stb,data_in1,data_in2,data_in3,o_w
   input [num_addrs-1:0] i_wb_addr;
   input i_wb_stb;
 
-  output reg [9:0] o_wb_data;
+  output reg [11:0] o_wb_data;
   output reg o_wb_ack;
   output reg o_wb_stall;
-  output reg [9:0] data_in1;
-  output reg [9:0] data_in2;
-  output reg [9:0] data_in3;
+  output reg [11:0] data_in1;
+  output reg [11:0] data_in2;
+  output reg [11:0] data_in3;
 
   reg [num_addrs-1:0] addr;
   reg [num_addrs-1:0] count_addr;
   reg [2:0] count;
-  reg [9:0] wr_data [2:0];
+  reg [11:0] wr_data [2:0];
   reg wr_enable;
   reg rd_enable;
   reg state;
 
-  wire [11:0] voted;
-  wire [9:0] rd_data [2:0];
+  wire [13:0] voted;
+  wire [11:0] rd_data [2:0];
 
   genvar i;
   generate
@@ -113,9 +115,9 @@ module elink_trig_scrubber(clk,i_wb_addr,i_wb_stb,data_in1,data_in2,data_in3,o_w
         end if(count=='d2) begin
           rd_enable<=0;
           wr_enable<=1;
-          wr_data[0]<=voted[9:0];
-          wr_data[1]<=voted[9:0];
-          wr_data[2]<=voted[9:0];
+          wr_data[0]<=voted[11:0];
+          wr_data[1]<=voted[11:0];
+          wr_data[2]<=voted[11:0];
           count<='d3;
         end if(count=='d3) begin
           rd_enable<=0;

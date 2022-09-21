@@ -4,7 +4,7 @@ module elink_trig_scrubber_sim();
   reg clk;
   reg [3:0] i_wb_addr;
   reg i_wb_stb;
-  wire [9:0] o_wb_data;
+  wire [11:0] o_wb_data;
   wire o_wb_ack;
   wire o_wb_stall;
 
